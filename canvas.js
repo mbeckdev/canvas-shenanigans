@@ -143,10 +143,11 @@ function Circle(x, y, dx, dy, radius) {
   this.dx = dx;
   this.dy = dy;
   this.radius = radius;
+  this.minRadius = radius;
   // this.dur = ;
-  this.dur = Math.floor(Math.random() * colorArray.length);
-  this.color = colorArray[this.dur];
-  console.log(this.dur);
+  this.randomIndex = Math.floor(Math.random() * colorArray.length);
+  this.color = colorArray[this.randomIndex];
+  // console.log(this.dur);
 
   this.draw = function () {
     c.beginPath();
@@ -185,7 +186,7 @@ function Circle(x, y, dx, dy, radius) {
         this.radius += 1;
         console.log(this.dur);
       }
-    } else if (this.radius > minRadius) {
+    } else if (this.radius > this.minRadius) {
       this.radius -= 1;
     }
 
@@ -195,43 +196,46 @@ function Circle(x, y, dx, dy, radius) {
 
 // set up circle for the first time
 let circleArray = [];
-for (let i = 0; i < 100; i++) {
-  let radius = 30;
-  let x = Math.random() * (innerWidth - radius * 2) + radius;
-  let y = Math.random() * (innerHeight - radius * 2) + radius;
-  let dx = (Math.random() - 0.5) * 2 * 0.5; // velocity
-  let dy = (Math.random() - 0.5) * 2 * 0.5; // velocity
-  circleArray.push(
-    new Circle(x, y, dx, dy, radius)
+function init() {
+  circleArray = [];
+  for (let i = 0; i < 2000; i++) {
+    let radius = Math.random() * 3 + 1;
+    let x = Math.random() * (innerWidth - radius * 2) + radius;
+    let y = Math.random() * (innerHeight - radius * 2) + radius;
+    let dx = (Math.random() - 0.5) * 2 * 0.5; // velocity
+    let dy = (Math.random() - 0.5) * 2 * 0.5; // velocity
+    circleArray.push(
+      new Circle(x, y, dx, dy, radius)
 
-    // PASTEL COLORS
-    // new Circle(
-    //   x,
-    //   y,
-    //   dx,
-    //   dy,
-    //   radius,
-    //   Math.random() * 255,
-    //   (Math.random() * 255) / 2 + 255 / 2,
-    //   (Math.random() * 255) / 2 + 255 / 2
-    // )
-  );
+      // PASTEL COLORS
+      // new Circle(
+      //   x,
+      //   y,
+      //   dx,
+      //   dy,
+      //   radius,
+      //   Math.random() * 255,
+      //   (Math.random() * 255) / 2 + 255 / 2,
+      //   (Math.random() * 255) / 2 + 255 / 2
+      // )
+    );
+  }
+
+  // set up lines for the first time
+  // let lineArray = [];
+  // for (let i = 0; i < 25; i++) {
+  //   let x1 = Math.random() * (innerWidth - 0 * 2) + 0;
+  //   let y1 = Math.random() * (innerHeight - 0 * 2) + 0;
+  //   let x2 = Math.random() * (innerWidth - 0 * 2) + 0;
+  //   let y2 = Math.random() * (innerHeight - 0 * 2) + 0;
+
+  //   let dx1 = (Math.random() - 0.5) * 2 * 0.5;
+  //   let dy1 = (Math.random() - 0.5) * 2 * 0.5;
+  //   let dx2 = (Math.random() - 0.5) * 2 * 0.5;
+  //   let dy2 = (Math.random() - 0.5) * 2 * 0.5;
+  //   lineArray.push(new Line(x1, y1, dx1, dy1, x2, y2, dx2, dy2));
+  // }
 }
-
-// set up lines for the first time
-// let lineArray = [];
-// for (let i = 0; i < 25; i++) {
-//   let x1 = Math.random() * (innerWidth - 0 * 2) + 0;
-//   let y1 = Math.random() * (innerHeight - 0 * 2) + 0;
-//   let x2 = Math.random() * (innerWidth - 0 * 2) + 0;
-//   let y2 = Math.random() * (innerHeight - 0 * 2) + 0;
-
-//   let dx1 = (Math.random() - 0.5) * 2 * 0.5;
-//   let dy1 = (Math.random() - 0.5) * 2 * 0.5;
-//   let dx2 = (Math.random() - 0.5) * 2 * 0.5;
-//   let dy2 = (Math.random() - 0.5) * 2 * 0.5;
-//   lineArray.push(new Line(x1, y1, dx1, dy1, x2, y2, dx2, dy2));
-// }
 
 function animate() {
   requestAnimationFrame(animate);
@@ -245,6 +249,7 @@ function animate() {
   // }
 }
 
+init();
 animate();
 
 // // ***************
@@ -259,4 +264,13 @@ function mouseIsMoving(e) {
   mouse.y = e.y;
 
   // console.log(mouse);
+}
+
+// resizing canvas when window is resized
+window.addEventListener('resize', windowJustResized);
+function windowJustResized() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  init();
 }
