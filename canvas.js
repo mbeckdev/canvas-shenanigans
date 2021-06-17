@@ -258,12 +258,8 @@ animate();
 
 window.addEventListener('mousemove', mouseIsMoving);
 function mouseIsMoving(e) {
-  // console.log(e);
-  // console.log(e.x);
   mouse.x = e.x;
   mouse.y = e.y;
-
-  // console.log(mouse);
 }
 
 // resizing canvas when window is resized
