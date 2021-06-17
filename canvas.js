@@ -9,6 +9,18 @@ canvas.height = window.innerHeight;
 // c will be our magic brush that can draw circles and squares and stuff
 let c = canvas.getContext('2d');
 
+// for interactivity
+let mouse = {
+  x: undefined,
+  y: undefined,
+};
+
+let maxRadius = 40;
+let minRadius = 2;
+
+let colorArray = ['#331832', '#D81E5B', '#F0544F', '#C6D8D3', '#FDF0D5'];
+// let colorArray = ['#ffaa33', '#99ffaa', '#00ff00', '#4411aa', '#ff1100'];
+
 // // ***************
 // // RECTANGLES
 // // ***************
@@ -121,19 +133,33 @@ function Line(x1, y1, dx1, dy1, x2, y2, dx2, dy2) {
   };
 }
 
-function Circle(x, y, dx, dy, radius, r, g, b) {
+// FOR PASTEL COLORS
+// function Circle(x, y, dx, dy, radius, r, g, b) {
+
+// FOR USING A colorArray of colors that is set above
+function Circle(x, y, dx, dy, radius) {
   this.x = x;
   this.y = y;
   this.dx = dx;
   this.dy = dy;
   this.radius = radius;
+  // this.dur = ;
+  this.dur = Math.floor(Math.random() * colorArray.length);
+  this.color = colorArray[this.dur];
+  console.log(this.dur);
 
   this.draw = function () {
     c.beginPath();
     c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    c.strokeStyle = 'rgba(0,0,0,0)';
-    c.stroke();
-    c.fillStyle = `rgba(${r},${g},${b},0.5)`;
+    // c.strokeStyle = 'rgba(0,0,0,0)';
+    // c.stroke();
+
+    // for PASTEL COLORS
+    // c.fillStyle = `rgba(${r},${g},${b},0.5)`;
+
+    // for using colorArray of colors
+    c.fillStyle = this.color;
+
     c.fill();
   };
 
@@ -148,6 +174,21 @@ function Circle(x, y, dx, dy, radius, r, g, b) {
     this.x += this.dx;
     this.y += this.dy;
 
+    // interactivity
+    if (
+      mouse.x - this.x < 50 &&
+      mouse.x - this.x > -50 &&
+      mouse.y - this.y < 50 &&
+      mouse.y - this.y > -50
+    ) {
+      if (this.radius < maxRadius) {
+        this.radius += 1;
+        console.log(this.dur);
+      }
+    } else if (this.radius > minRadius) {
+      this.radius -= 1;
+    }
+
     this.draw();
   };
 }
@@ -161,33 +202,36 @@ for (let i = 0; i < 100; i++) {
   let dx = (Math.random() - 0.5) * 2 * 0.5; // velocity
   let dy = (Math.random() - 0.5) * 2 * 0.5; // velocity
   circleArray.push(
-    new Circle(
-      x,
-      y,
-      dx,
-      dy,
-      radius,
-      Math.random() * 255,
-      (Math.random() * 255) / 2 + 255 / 2,
-      (Math.random() * 255) / 2 + 255 / 2
-    )
+    new Circle(x, y, dx, dy, radius)
+
+    // PASTEL COLORS
+    // new Circle(
+    //   x,
+    //   y,
+    //   dx,
+    //   dy,
+    //   radius,
+    //   Math.random() * 255,
+    //   (Math.random() * 255) / 2 + 255 / 2,
+    //   (Math.random() * 255) / 2 + 255 / 2
+    // )
   );
 }
 
 // set up lines for the first time
-let lineArray = [];
-for (let i = 0; i < 25; i++) {
-  let x1 = Math.random() * (innerWidth - 0 * 2) + 0;
-  let y1 = Math.random() * (innerHeight - 0 * 2) + 0;
-  let x2 = Math.random() * (innerWidth - 0 * 2) + 0;
-  let y2 = Math.random() * (innerHeight - 0 * 2) + 0;
+// let lineArray = [];
+// for (let i = 0; i < 25; i++) {
+//   let x1 = Math.random() * (innerWidth - 0 * 2) + 0;
+//   let y1 = Math.random() * (innerHeight - 0 * 2) + 0;
+//   let x2 = Math.random() * (innerWidth - 0 * 2) + 0;
+//   let y2 = Math.random() * (innerHeight - 0 * 2) + 0;
 
-  let dx1 = (Math.random() - 0.5) * 2 * 0.5;
-  let dy1 = (Math.random() - 0.5) * 2 * 0.5;
-  let dx2 = (Math.random() - 0.5) * 2 * 0.5;
-  let dy2 = (Math.random() - 0.5) * 2 * 0.5;
-  lineArray.push(new Line(x1, y1, dx1, dy1, x2, y2, dx2, dy2));
-}
+//   let dx1 = (Math.random() - 0.5) * 2 * 0.5;
+//   let dy1 = (Math.random() - 0.5) * 2 * 0.5;
+//   let dx2 = (Math.random() - 0.5) * 2 * 0.5;
+//   let dy2 = (Math.random() - 0.5) * 2 * 0.5;
+//   lineArray.push(new Line(x1, y1, dx1, dy1, x2, y2, dx2, dy2));
+// }
 
 function animate() {
   requestAnimationFrame(animate);
@@ -196,9 +240,23 @@ function animate() {
   for (let i = 0; i < circleArray.length; i++) {
     circleArray[i].update();
   }
-  for (let i = 0; i < lineArray.length; i++) {
-    lineArray[i].update();
-  }
+  // for (let i = 0; i < lineArray.length; i++) {
+  //   lineArray[i].update();
+  // }
 }
 
 animate();
+
+// // ***************
+// // INTERACTIONS
+// // ***************
+
+window.addEventListener('mousemove', mouseIsMoving);
+function mouseIsMoving(e) {
+  // console.log(e);
+  // console.log(e.x);
+  mouse.x = e.x;
+  mouse.y = e.y;
+
+  // console.log(mouse);
+}
