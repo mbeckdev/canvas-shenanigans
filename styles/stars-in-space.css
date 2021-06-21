@@ -1,0 +1,39 @@
+/* body { */
+/* background-color: 'hsla(180, 10%, 10%, 1)'; */
+/* margin: 0; */
+/* overflow: hidden; */
+/* } */
+
+canvas {
+  /* border: 1px solid black; */
+  /* background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  ); */
+  /* background-color: gradien; */
+  position: absolute;
+  z-index: -1;
+}
+
+body {
+  background-color: hsla(180, 10%, 5%, 1);
+  /* background: hsl(2380, 55%, 35%); */
+  margin: 0;
+  overflow: hidden;
+}
+
+h1 {
+  color: white;
+  font-size: 10rem;
+  /* font-size: xxx-large; */
+}
+
+header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 250px;
+  align-items: center;
+}
