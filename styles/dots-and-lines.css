@@ -1,23 +1,5 @@
-/* body { */
-/* background-color: 'hsla(180, 10%, 10%, 1)'; */
-/* margin: 0; */
-/* overflow: hidden; */
-/* } */
-
-canvas {
-  /* border: 1px solid black; */
-  /* background: linear-gradient(
-    90deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(9, 9, 121, 1) 35%,
-    rgba(0, 212, 255, 1) 100%
-  ); */
-  /* background-color: gradien; */
-}
-
 body {
   background-color: hsla(180, 2%, 15%, 1);
-  /* background: hsl(2380, 55%, 35%); */
   margin: 0;
   overflow: hidden;
 }
