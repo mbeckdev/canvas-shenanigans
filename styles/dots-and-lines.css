@@ -16,7 +16,7 @@ canvas {
 }
 
 body {
-  background-color: hsla(180, 10%, 5%, 1);
+  background-color: hsla(180, 2%, 15%, 1);
   /* background: hsl(2380, 55%, 35%); */
   margin: 0;
   overflow: hidden;
